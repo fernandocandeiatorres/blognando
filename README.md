@@ -1,9 +1,17 @@
 # blognando
 ---
 
+Ideas:
+Every single "edit" on a blog post, including initial, will have a date time stamp with time on the left, so
+you can keep track of your progress in respect to time.
+
+
+
 # Simple Blog App
 
 A minimalist blog application. It features a main page to display all blog posts and a post creation page where users can write posts using Markdown, add titles, and upload images.
+I want it to be a place that you can keep track of your "brain context" in each of your projects, easily add new ideas/current
+project tasks, etc.
 
 ## Features
 - **Main Page:** View all blog posts with titles, Markdown-rendered content, and images.
