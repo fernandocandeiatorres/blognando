@@ -1,0 +1,44 @@
+# Node.js dependencies
+node_modules/
+package-lock.json
+npm-debug.log
+yarn.lock
+
+# Logs
+logs/
+*.log
+logs/**/*.log
+debug.log
+error.log
+
+# OS and environment files
+.DS_Store
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Build files
+dist/
+build/
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+
+# Coverage and test output
+coverage/
+*.lcov
+
+# Temporary files
+tmp/
+*.tmp
+*.bak
+
+# Ignore any generated files
+*.out
+*.pid
+*.seed
+*.pid.lock
