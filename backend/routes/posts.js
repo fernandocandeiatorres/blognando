@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const Post = require("../models/Post");
+const multer = require("multer");
+const cloudinary = require("cloudinary").v2;
+
+const upload = multer({ dest: "uploads/" });
 
 // Get all Posts
 router.get("/", async (req, res) => {
@@ -13,36 +17,54 @@ router.get("/", async (req, res) => {
 });
 
 // Create a new post
-router.post("/", async (req, res) => {
-  // creates post obj off the request
-  const post = new Post({
-    title: req.body.title,
-    content: req.body.content,
-    imageUrl: req.body.imageUrl || null,
-  });
-
+router.post("/", upload.single("image"), async (req, res) => {
   try {
+    let imageUrl = null;
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path);
+      imageUrl = result.secure_url;
+    }
+
+    // creates post obj off the request
+    const post = new Post({
+      title: req.body.title,
+      content: req.body.content,
+      imageUrl: imageUrl,
+    });
+
     const newPost = await post.save();
-    res.status(201).json(newPost);
+    res.status(201).json({
+      ...newPost._doc,
+      uploadedImageUrl: imageUrl,
+    });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 });
 
 // Edit post
-router.put("/:id", async (req, res) => {
+router.put("/:id", upload.single("image"), async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
     }
 
+    let imageUrl = post.imageUrl;
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path);
+      imageUrl = result.secure_url;
+    }
+
     post.title = req.body.title || post.title;
     post.content = req.body.content || post.content;
-    post.imageUrl = req.body.imageUrl || post.imageUrl;
+    post.imageUrl = imageUrl;
 
     const updatedPost = await post.save();
-    res.json(updatedPost);
+    res.json({
+      ...updatedPost._doc,
+      uploadedImageUrl: imageUrl,
+    });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
