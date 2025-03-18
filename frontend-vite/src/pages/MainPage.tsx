@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { getPosts, Post } from "../services/api";
-import ReactMarkdown from "react-markdown";
 import { formatDate } from "../utils/formatDate";
+import { Link } from "react-router-dom";
 
 const MainPage = () => {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -33,7 +33,9 @@ const MainPage = () => {
                 {formatDate(post.createdAt)}
               </h2>
               <div className="text-blue-600 text-2xl hover:text-black hover:cursor-pointer hover:underline">
-                <h1>{post.title}</h1>
+                <Link to={`/post/${post._id}`}>
+                  <h1>{post.title}</h1>
+                </Link>
                 {/* <ReactMarkdown>{post.content}</ReactMarkdown> */}
               </div>
             </div>
