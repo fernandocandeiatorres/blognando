@@ -33,7 +33,7 @@ const MainPage = () => {
                 {formatDate(post.createdAt)}
               </h2>
               <div className="text-blue-600 text-2xl hover:text-black hover:cursor-pointer hover:underline">
-                <Link to={`/post/${post._id}`}>
+                <Link to={`/post/${post._id}`} state={{ post }}>
                   <h1>{post.title}</h1>
                 </Link>
                 {/* <ReactMarkdown>{post.content}</ReactMarkdown> */}
