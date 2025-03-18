@@ -3,6 +3,7 @@ const router = express.Router();
 const Post = require("../models/Post");
 const multer = require("multer");
 const cloudinary = require("cloudinary").v2;
+const fs = require("fs").promises;
 
 const upload = multer({ dest: "uploads/" });
 
@@ -23,6 +24,7 @@ router.post("/", upload.single("image"), async (req, res) => {
     if (req.file) {
       const result = await cloudinary.uploader.upload(req.file.path);
       imageUrl = result.secure_url;
+      await fs.unlink(req.file.path);
     }
 
     // creates post obj off the request
@@ -54,6 +56,7 @@ router.put("/:id", upload.single("image"), async (req, res) => {
     if (req.file) {
       const result = await cloudinary.uploader.upload(req.file.path);
       imageUrl = result.secure_url;
+      await fs.unlink(req.file.path);
     }
 
     post.title = req.body.title || post.title;
