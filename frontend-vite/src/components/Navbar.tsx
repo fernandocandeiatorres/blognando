@@ -8,17 +8,14 @@ const Navbar = () => {
             href="/"
             className="text-xl font-light text-gray-900 tracking-tight hover:underline"
           >
-            the singularity is nearer
+            second brain
           </a>
         </div>
 
         {/* Navigation Link */}
         <div className="">
-          <a
-            href="/about"
-            className="text-black hover:underline text-sm font-medium"
-          >
-            About
+          <a href="/create" className="text-black hover:underline text-sm">
+            Post
           </a>
         </div>
       </div>

@@ -10,7 +10,7 @@ const upload = multer({ dest: "uploads/" });
 // Get all Posts
 router.get("/", async (req, res) => {
   try {
-    const posts = await Post.find();
+    const posts = await Post.find().sort({ createdAt: -1 });
     res.json(posts);
   } catch (error) {
     res.status(500).json({ message: error.message });

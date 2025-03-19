@@ -28,7 +28,7 @@ const MainPage = () => {
         </div>
         <div className="gap-4 mt-5">
           {posts.map((post) => (
-            <div key={post._id}>
+            <div key={post._id} className="mb-4">
               <h2 className="text-gray-500 text-xs mb-1">
                 {formatDate(post.createdAt)}
               </h2>
