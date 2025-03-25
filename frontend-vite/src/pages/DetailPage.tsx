@@ -3,6 +3,9 @@ import { useLocation, useParams } from "react-router-dom";
 import { Post } from "../services/api";
 import { formatDate } from "../utils/formatDate";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 const DetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -37,7 +40,7 @@ const DetailPage = () => {
   if (!post) return <div>Post not found</div>;
 
   return (
-    <div className="w-full flex mt-10 justify-center">
+    <div className="w-full flex mt-10 justify-center p-4 md:p-0">
       <div className="md:w-1/2 w-full px-3">
         <div className="gap-3 flex flex-col">
           <h2 className="text-4xl text-start">{post.title}</h2>
@@ -46,11 +49,7 @@ const DetailPage = () => {
           </h2>
         </div>
         <div className="gap-4 mt-5">
-          <div key={post._id}>
-            <div className="">
-              <ReactMarkdown>{post.content}</ReactMarkdown>
-            </div>
-          </div>
+          <div key={post._id}></div>
         </div>
       </div>
     </div>

@@ -17,21 +17,48 @@ const CreatePost = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [selectedTab, setSelectedTab] = useState<"write" | "preview">("write");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [showError, setShowError] = useState(false);
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
+    setShowError(false);
+
     try {
-      await createPost({ title, content });
+      console.log(content);
+      await createPost({ title, content, password });
       navigate("/");
-    } catch (error) {
-      console.error("Error creating post:", error);
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
+        setError("Senha incorreta. Apenas admins podem postar.");
+      } else {
+        setError("An error occurred while creating the post.");
+      }
+
+      setShowError(true);
+
+      setTimeout(() => setShowError(false), 2000);
+      setTimeout(() => setError(""), 2500);
     }
   };
 
   return (
     <div className="flex flex-col  bg-white text-black">
       <h1 className="text-4xl text-center">CREATE.</h1>
+
+      {/* Error Notification */}
+      <div
+        className={`transition-all duration-500 p-4 text-red-700 bg-red-100 border border-red-400 rounded-lg fixed top-20 right-4 ${
+          showError ? "opacity-100 top-0" : "opacity-0 top-28"
+        } `}
+      >
+        {error}
+      </div>
+
       {/* Title Input */}
       <div className="p-6 border-b border-gray-200">
         <input
@@ -64,6 +91,18 @@ const CreatePost = () => {
               className: " w-full min-h-screen",
             },
           }}
+        />
+      </div>
+
+      {/* Password Input */}
+      <div className="p-6 border-b border-gray-200">
+        <input
+          type="password"
+          id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Enter the password"
+          className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
         />
       </div>
 

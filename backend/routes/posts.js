@@ -40,6 +40,10 @@ router.post("/", upload.single("image"), async (req, res) => {
       await fs.unlink(req.file.path);
     }
 
+    if (req.body.password !== process.env.POST_PASSWORD) {
+      return res.status(401).json({ error: "Senha para postar errada" });
+    }
+
     // creates post obj off the request
     const post = new Post({
       title: req.body.title,
